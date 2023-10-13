@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+
+class PeriodicTable extends StatefulWidget {
+  const PeriodicTable({Key? key}) : super(key: key);
+
+  @override
+  State<PeriodicTable> createState() => _PeriodicTableState();
+}
+
+class _PeriodicTableState extends State<PeriodicTable> {
+  final List<Element> _elements = [
+    Element(atomicNumber: 1, name: 'Hydrogen', symbol: 'H'),
+    Element(atomicNumber: 2, name: 'Helium', symbol: 'He'),
+    // ...
+  ];
+
+  Element? _selectedElement;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Periodic Table'),
+      ),
+      body: GridView.builder(
+        itemCount: _elements.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 18,
+          childAspectRatio: 1.0,
+        ),
+        itemBuilder: (context, index) {
+          final element = _elements[index];
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedElement = element;
+              });
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+              ),
+              child: Center(
+                child: Text(
+                  '${element.atomicNumber}',
+                  style: TextStyle(fontSize: 16.0),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'More Info',
+          ),
+        ],
+        onTap: (index) {
+          if (index == 0) {
+            // Show more info about the selected element.
+          }
+        },
+      ),
+    );
+  }
+}
+
+class Element {
+  final int atomicNumber;
+  final String name;
+  final String symbol;
+
+  const Element({
+    required this.atomicNumber,
+    required this.name,
+    required this.symbol,
+  });
+}
